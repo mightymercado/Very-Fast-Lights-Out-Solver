@@ -8,6 +8,7 @@
 #include <time.h>
 typedef unsigned int uint;
 typedef unsigned long long u64;
+typedef unsigned __int128 u128;
 
 #define N 5
 #define STATES (1 << (N * N))
@@ -17,22 +18,23 @@ uint mask[] = {
     35, 71, 142, 284, 536, 1121, 2274, 4548, 9096, 17168, 35872, 72768, 145536, 291072, 549376,
     1147904, 2328576, 4657152, 9314304, 17580032, 3178496, 7405568, 14811136, 29622272, 25690112
 };
-                
+
 // packed toggle masks
-u64 cmask[13] = {
-    150323855431,
-    609885356316,
-    2302102471777,
-    9766755635652,
-    39067022541584,
-    154069066914880,
-    625072360681728,
-    2359551954355200,
-    10001157770907648,
-    40004631082582016,
-    13651536377872384,
-    63613344766230528,
-    110338190870577152
+u128 cmask[5] = {
+    443677736902923512 * (u128) (1e14)
+    +139394679320,
+
+    142103640876514133 * (u128) (1e16)
+    +6035471552168720,
+
+    454731650804845227 * (u128) (1e17)
+    +53135089669399040,
+
+    145514128257550472 * (u128) (1e19)
+    +8100322869420769280,
+
+    402922264199749179 * (u128) (1e19)
+    +4093243870648729600
 };
 
 unsigned char prv[STATES];
@@ -59,15 +61,21 @@ void bfs() {
     push(0);
     visit(0);
     while (size != 0) {
-        u64 u = pop();
-        u = u | u << 32;
-        for (uint i = 0; i < 13; ++i) {
-            // loop unrolling x2 + packed 64-bit XOR
-            u64 x = u ^ cmask[i];
-            int a = x >> 32;
-            int b = x;
-            if (!test(a)) { visit(a); prv[a] = i << 1; push(a); }
-            if (!test(b)) { visit(b); prv[b] = (i << 1) + 1; push(b); }
+        register u128 u = pop();
+        u = u | u << 25 | u << 50 | u << 75 | u << 100;
+        for (uint i = 0; i < 5; ++i) {
+            // loop unrolling x5 + packed 128-bit XOR
+            u128 x = u ^ cmask[i];
+            int a = (x >> 100) & 33554431;
+            int b = (x >> 75)  & 33554431;
+            int c = (x >> 50)  & 33554431;
+            int d = (x >> 25)  & 33554431;
+            int e = (x >> 0)   & 33554431;
+            if (!test(a)) { visit(a); prv[a] = i*5  ; push(a); }
+            if (!test(b)) { visit(b); prv[b] = i*5+1; push(b); }
+            if (!test(c)) { visit(c); prv[c] = i*5+2; push(c); }
+            if (!test(d)) { visit(d); prv[d] = i*5+3; push(d); }
+            if (!test(e)) { visit(e); prv[e] = i*5+4; push(e); }
         }
     }
 }
