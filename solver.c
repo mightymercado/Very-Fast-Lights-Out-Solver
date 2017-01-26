@@ -38,16 +38,16 @@ u64 cmask[13] = {
 unsigned char prv[STATES];
 int size = 0;
 int start = 0;
-#define lim 2019953
+#define lim 2097152
 
 // Queue via Circular array
 int q[lim];
 int pop() {
     size--;
-    return q[start++ % lim];
+    return q[start++ & (lim-1)];
 }
 void push(int x) {
-    q[(start + size++) % lim] = x;
+    q[(start + size++) & (lim-1)] = x;
 }
 
 // in my benchmark, bitset tends to be faster than char/int array.
