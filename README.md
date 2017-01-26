@@ -7,9 +7,9 @@ I attempted to optimize the naive technique in solving lights out (BFS).
 
 2. Board state is stored as an integer
 
-3. Toggling a button is done by XOR'ing the board with a hard-coded mask.
+3. Toggling a button is done by XOR'ing the board with a hard-coded mask. 
 
-4. Two toggles are done in one XOR instruction via compressed 64-bit masks.
+4. Two toggles are done in one XOR instruction via compressed 64-bit masks. [SWAR](https://en.wikipedia.org/wiki/SWAR)
 
 5. Loop unrolling is done together with (4) because two toggles are processed after a single XOR.
 
