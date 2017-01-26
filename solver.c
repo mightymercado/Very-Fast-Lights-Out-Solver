@@ -60,9 +60,10 @@ void bfs() {
     visit(0);
     while (size != 0) {
         u64 u = pop();
+        u = u | u << 32;
         for (uint i = 0; i < 13; ++i) {
             // loop unrolling x2 + packed 64-bit XOR
-            u64 x = (u | (u << 32)) ^ cmask[i];
+            u64 x = u ^ cmask[i];
             int a = x >> 32;
             int b = x;
             if (!test(a)) { visit(a); prv[a] = i << 1; push(a); }
