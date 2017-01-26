@@ -18,3 +18,6 @@ I attempted to optimize the naive technique in solving lights out (BFS).
 7. Queue is implemented via circular array. I predetermined the maximum size.
 
 8. I store paths from any board to empty board by storing the toggles between the two states. Since there are only 25 toggles, I can use a byte (unsigned char) to store these.
+
+#Performance
+The BFS finished in 1.57-1.6 seconds on my i3 2nd gen machine.
