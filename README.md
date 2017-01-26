@@ -7,11 +7,11 @@ Optimizations:
 
 2. Board state is stored as an integer
 
-3. Toggling a button is done by XOR'ing the board with a hard-coded masks.
+3. Toggling a button is done by XOR'ing the board with a hard-coded mask.
 
 4. Two toggles are done in one XOR instruction via compressed 64-bit masks.
 
-5. Loop unrolling is done together with (4).
+5. Loop unrolling is done together with (4) as it reduces XOR operations by a factor of 2.
 
 6. Bitset is used instead of bool/cbar array as it seemed to be faster in my benchmark. I think it's because random access is slow when the array is large.
 
