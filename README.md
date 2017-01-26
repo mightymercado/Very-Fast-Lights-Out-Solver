@@ -11,7 +11,7 @@ I attempted to optimize the naive technique in solving lights out (BFS).
 
 4. Five toggles are done in one 128-bit XOR instruction by compressing five masks into a 128-bit integer. [SWAR](https://en.wikipedia.org/wiki/SWAR)
 
-5. Loop unrolling is done together with (4) because two toggles are processed after a single XOR.
+5. Loop unrolling is done together with (4) because five toggles are processed after a single XOR.
 
 6. Bitset is used instead of bool/cbar array as it seemed to be faster in my benchmark. I think it's because random access is slow when the array is large. Indexing in the bitset uses only bitwise operators in place of division and modulo.
 
