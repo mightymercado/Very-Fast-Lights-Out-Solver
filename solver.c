@@ -66,6 +66,7 @@ void bfs() {
         for (uint i = 0; i < 5; ++i) {
             // loop unrolling x5 + packed 128-bit XOR
             u128 x = u ^ cmask[i];
+            // note that the following 5 lines can be executed in parallel
             int a = (x >> 100) & 33554431;
             int b = (x >> 75)  & 33554431;
             int c = (x >> 50)  & 33554431;
