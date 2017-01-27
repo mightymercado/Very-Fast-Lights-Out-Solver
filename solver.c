@@ -6,6 +6,7 @@
 */
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 typedef unsigned int uint;
 typedef unsigned long long u64;
 typedef unsigned __int128 u128;
@@ -106,6 +107,7 @@ uint open() {
 }
 
 int main() {
+    memset(prv, 25, sizeof prv);
     clock_t start = clock();
     bfs();
     printf("%.2f\n", (double) (clock() - start) / CLOCKS_PER_SEC);
@@ -113,6 +115,10 @@ int main() {
     render(board);
     printf("\n");
     while (board != 0) {
+        if (prv[board] == 25) {
+            printf("Impossible\n");
+            break;
+        }
         board ^= mask[prv[board]];
         render(board);
         printf("\n");
