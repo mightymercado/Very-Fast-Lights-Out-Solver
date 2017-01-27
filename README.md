@@ -1,5 +1,5 @@
 # Very-Fast-Lights-Out-Solver
-I attempted to optimize the naive technique in solving lights out (BFS).
+I attempted to optimize the naive technique in solving lights out (BFS). No algorithm improvements were done here.
 
 #Optimizations
 
