@@ -53,9 +53,9 @@ void push(int x) {
 }
 
 // in my benchmark, bitset tends to be faster than char/int array.
-u64 visited[1<<19] = {0};
-#define visit(i) visited[i >> 6] |= 1 << (i & 63)
-#define test(i) ((visited[i >> 6] & (1 << (i & 63))) != 0)
+unsigned char visited[1<<22] = {0};
+#define visit(i) visited[i >> 3] |= 1 << (i & 7)
+#define test(i) ((visited[i >> 3] & (1 << (i & 7))) != 0)
 
 void bfs() {
     push(0);
@@ -67,11 +67,11 @@ void bfs() {
             // loop unrolling x5 + packed 128-bit XOR
             u128 x = u ^ cmask[i];
             // note that the following 5 lines can be executed in parallel
-            int a = (x >> 100) & 33554431;
-            int b = (x >> 75)  & 33554431;
-            int c = (x >> 50)  & 33554431;
-            int d = (x >> 25)  & 33554431;
-            int e = (x >> 0)   & 33554431;
+            int a = x >> 100;
+            int b = (x >> 75)  & 0x1FFFFFF;
+            int c = (x >> 50)  & 0x1FFFFFF;
+            int d = (x >> 25)  & 0x1FFFFFF;
+            int e = x & 0x1FFFFFF;
             if (!test(a)) { visit(a); prv[a] = i*5  ; push(a); }
             if (!test(b)) { visit(b); prv[b] = i*5+1; push(b); }
             if (!test(c)) { visit(c); prv[c] = i*5+2; push(c); }
