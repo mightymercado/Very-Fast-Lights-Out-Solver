@@ -58,25 +58,26 @@ unsigned char visited[1<<22] = {0};
 #define test(i) ((visited[i >> 3] & (1 << (i & 7))) != 0)
 
 void bfs() {
+    int i, j;
     push(0);
     visit(0);
     while (size != 0) {
-        register u128 u = pop();
+        u128 u = pop();
         u = u | u << 25 | u << 50 | u << 75 | u << 100;
-        for (uint i = 0; i < 5; ++i) {
+        for (i = 4; i >= 0; --i) {
             // loop unrolling x5 + packed 128-bit XOR
             u128 x = u ^ cmask[i];
-            // note that the following 5 lines can be executed in parallel
             int a = x >> 100;
             int b = (x >> 75)  & 0x1FFFFFF;
             int c = (x >> 50)  & 0x1FFFFFF;
             int d = (x >> 25)  & 0x1FFFFFF;
             int e = x & 0x1FFFFFF;
-            if (!test(a)) { visit(a); prv[a] = i*5  ; push(a); }
-            if (!test(b)) { visit(b); prv[b] = i*5+1; push(b); }
-            if (!test(c)) { visit(c); prv[c] = i*5+2; push(c); }
-            if (!test(d)) { visit(d); prv[d] = i*5+3; push(d); }
-            if (!test(e)) { visit(e); prv[e] = i*5+4; push(e); }
+            j = i * 5;
+            if (!test(a)) { visit(a); prv[a] = j  ; push(a); }
+            if (!test(b)) { visit(b); prv[b] = j+1; push(b); }
+            if (!test(c)) { visit(c); prv[c] = j+2; push(c); }
+            if (!test(d)) { visit(d); prv[d] = j+3; push(d); }
+            if (!test(e)) { visit(e); prv[e] = j+4; push(e); }
         }
     }
 }
