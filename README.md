@@ -1,7 +1,7 @@
 # Very-Fast-Lights-Out-Solver
 I attempted to optimize the naive technique in solving lights out (BFS). No algorithm improvements were done here. My goal was to use only implementation-level optimizations.
 
-#Optimizations
+# Optimizations
 
 1. Board is compressed into 1 dimension.
 
@@ -21,7 +21,7 @@ I attempted to optimize the naive technique in solving lights out (BFS). No algo
 
 9. Loop inversion.
 
-#Performance
+# Performance
 The BFS finished in 1.57-1.6 seconds on my i3 2nd gen machine with -Ofast flag enabled.
 
 Update: Speed is now 1.05-1.15 seconds after removing some unecessary operations and loop inversion.
